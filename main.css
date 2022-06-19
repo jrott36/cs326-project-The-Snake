@@ -7,3 +7,7 @@
 .params {
     margin: 3px;
 }
+
+#query {
+    text-align: center;
+}

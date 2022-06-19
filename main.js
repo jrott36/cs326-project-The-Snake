@@ -1,7 +1,11 @@
+import { Searcher } from './display.js'
+
 const searchButton = document.getElementById('search');
+const searcher = new Searcher();
 
 searchButton.addEventListener("click", () => {
     const searchBar = document.getElementById('search-bar');
     const query = searchBar.value;
-    // TODO Implement Giving Global API with search
+    searcher.search = query;
+    searcher.renderSearch();
 })
