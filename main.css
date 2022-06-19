@@ -1,0 +1,9 @@
+#search-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.params {
+    margin: 3px;
+}
