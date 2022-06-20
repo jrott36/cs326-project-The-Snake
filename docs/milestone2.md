@@ -14,3 +14,6 @@ The application provides a search functionality that allows a user to search cha
 ### HTML Structure:
 ![Alt text](./HTML%20Structure.PNG)
 The head includes some Bootstrap lines and links to the css file for styling and a module for the main script. In the body includes the Bootstrap container for formatting, a title and the search block. This block includes the search bar and button for searching. After the search block comes the query where the page will tell you what it searched for. After the query is the results section which is where results for charities will be entered dynamically.
+
+### UI Interaction Video:
+https://drive.google.com/file/d/1G4w9DF20_4x_554nHXgLdLeXBc3xTJuH/view
