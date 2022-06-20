@@ -13,13 +13,12 @@
 }
 
 .charity-line {
-    display: grid;
-    margin: auto;
+    display: flex;
 }
 
 .like-button {
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
     background-color: white;
     border: 1px solid;
     border-color: black;

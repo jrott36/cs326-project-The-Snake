@@ -8,8 +8,13 @@ class Searcher{
     set search(str){
         this.query = str;
         this.results = [];
+
+        // Temporary charity objects for testing
         let temp = {liked: false, charity: "This is an example charity."};
+        let temp2 = {liked: true, charity: "This is a second example. It should already be liked"};
         this.results.push(temp);
+        this.results.push(temp2);
+
         // TODO Implement Giving Global API with search
     }
 
@@ -27,12 +32,17 @@ class Searcher{
         let resultSection = document.getElementById('results');
         resultSection.innerHTML = '';
         for (let item of this.results){
-            console.log(item);
             const line = document.createElement('div');
             line.classList.add('charity-line');
             const likeDiv = document.createElement('div');
             likeDiv.classList.add('like-button');
-            // Allow 
+
+            // Check if charity already liked
+            if (item['liked']) {
+                likeDiv.classList.add('liked');
+            }
+            
+            // Add event listener for the like button
             likeDiv.addEventListener("click", () => {
                 if (item['liked']){
                     likeDiv.classList.remove('liked');

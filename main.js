@@ -9,8 +9,3 @@ searchButton.addEventListener("click", () => {
     searcher.search = query;
     searcher.renderSearch();
 })
-
-// document.getElementById('results').addEventListener("click", (e) => {
-//     if (e.target.classList.contains('like-button')){
-//     }
-// })
