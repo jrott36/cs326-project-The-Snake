@@ -11,3 +11,24 @@
 #query {
     text-align: center;
 }
+
+.charity-line {
+    display: grid;
+    margin: auto;
+}
+
+.like-button {
+    height: 30px;
+    width: 30px;
+    background-color: white;
+    border: 1px solid;
+    border-color: black;
+}
+
+.like-button:hover {
+    background-color: yellow;
+}
+
+.liked {
+    background-color: blue;
+}
