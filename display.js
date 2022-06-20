@@ -12,8 +12,10 @@ class Searcher{
         // Temporary charity objects for testing
         let temp = {liked: false, charity: "This is an example charity."};
         let temp2 = {liked: true, charity: "This is a second example. It should already be liked"};
+        let temp3 = {liked: false, charity: "This one is just to make the comment that the charity search API is still a TODO on implementing."};
         this.results.push(temp);
         this.results.push(temp2);
+        this.results.push(temp3);
 
         // TODO Implement Giving Global API with search
     }

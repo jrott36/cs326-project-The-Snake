@@ -12,6 +12,12 @@
     text-align: center;
 }
 
+#results {
+    display: grid;
+    grid-template-columns: max-content;
+    row-gap: 10px;
+}
+
 .charity-line {
     display: flex;
 }
