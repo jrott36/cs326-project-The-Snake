@@ -1,12 +1,23 @@
 // For now, display grid with input text to show modified UI:
 class Searcher{
     constructor(){
-        this.query = "";
-        this.results = [];
+        if (window.localStorage.getItem('query') !== null &&
+            window.localStorage.getItem('results') !== null
+        ){
+            this.query = window.localStorage.getItem('query');
+            document.getElementById('query').value = this.query;
+            this.results = JSON.parse(window.localStorage.getItem('results'));
+            this.renderSearch();
+        }
+        else {
+            this.query = "";
+            this.results = [];
+        }
     }
 
     set search(str){
         this.query = str;
+        this._saveQuery();
         this.results = [];
 
         // Temporary charity objects for testing
@@ -17,11 +28,21 @@ class Searcher{
         this.results.push(temp2);
         this.results.push(temp3);
 
+        this._saveResults();
+
         // TODO Implement Giving Global API with search
     }
 
     get search(){
         return this.query;
+    }
+
+    _saveQuery(){
+        window.localStorage.setItem('query', this.query);
+    }
+
+    _saveResults(){
+        window.localStorage.setItem('results', JSON.stringify(this.results));
     }
 
     renderQuery(){
@@ -41,6 +62,7 @@ class Searcher{
 
             // Check if charity already liked
             if (item['liked']) {
+                console.log("hit here!");
                 likeDiv.classList.add('liked');
             }
             
@@ -54,6 +76,7 @@ class Searcher{
                     likeDiv.classList.add('liked');
                     item['liked'] = true;
                 }
+                this._saveResults();
             });
             line.appendChild(likeDiv);
             const charityDiv = document.createElement('div');
