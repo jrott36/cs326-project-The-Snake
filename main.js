@@ -8,4 +8,4 @@ searchButton.addEventListener("click", () => {
     const query = searchBar.value;
     searcher.search = query;
     searcher.renderSearch();
-})
+});

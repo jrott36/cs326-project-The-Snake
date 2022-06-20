@@ -52,7 +52,7 @@ class Searcher{
                     likeDiv.classList.add('liked');
                     item['liked'] = true;
                 }
-            })
+            });
             line.appendChild(likeDiv);
             const charityDiv = document.createElement('div');
             charityDiv.classList.add('charity');
