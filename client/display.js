@@ -29,11 +29,6 @@ class Searcher{
         this.results.push(temp2);
         this.results.push(temp3);
 
-        const req_url = `https://api.globalgiving.org/api/public/projectservice/all/projects?api_key=${process.env.API_KEY}`;
-        const response = await fetch(req_url, {
-            method: 'GET'
-        });
-        console.log(response.json());
         this._saveResults();
 
         // TODO Implement Giving Global API with search

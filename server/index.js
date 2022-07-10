@@ -15,6 +15,25 @@ app.use(logger('dev'));
 app.use('/', express.static('client'));
 
 // TODO Implement the endpoints
+app.post('/user/like', async (req, res) => {
+    try {
+        const body = req.body;
+        await database.addLike(body.UID, body.OID);
+        res.status(200);
+    } catch (err) {
+        res.status(500).json({status: 'failed'});
+    }
+});
+
+app.delete('/user/deleteLike', async (req, res) => {
+    try {
+        const body = req.body;
+        await database.removeLike(body.UID, body.OID);
+        res.status(200)
+    } catch (err) {
+        res.status(500).json({status: 'failed'});
+    }
+});
 
 // Redirect everything else
 app.all('*', async (request, response) => {
@@ -24,4 +43,4 @@ app.all('*', async (request, response) => {
 // Start server
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
-})
+});
