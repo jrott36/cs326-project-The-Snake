@@ -23,8 +23,20 @@ class Database {
 
     async init() {
         const queryText = `
-            create table if not exists ______ (
-                #### STRUCTURE ####
+            create table if not exists orgs (
+                OID integer primary key,
+                Name varchar(50),
+                url text,
+                mission text,
+                country varchar(3)
+            );
+            create table if not exists users (
+                UID varchar(30) primary key,
+                Password varchar(30)
+            );
+            create table if not exists likes (
+                UID varchar(30) primary key,
+                OID integer
             )
         `;
         const res = await this.client.query(queryText);
