@@ -1,4 +1,6 @@
 // For now, display grid with input text to show modified UI:
+import 'dotenv/config';
+
 class Searcher{
     constructor(){
         if (window.localStorage.getItem('query') !== null &&
@@ -8,14 +10,13 @@ class Searcher{
             document.getElementById('query').value = this.query;
             this.results = JSON.parse(window.localStorage.getItem('results'));
             this.renderSearch();
-        }
-        else {
+        } else {
             this.query = "";
             this.results = [];
         }
     }
 
-    set search(str){
+    async search(str){
         this.query = str;
         this._saveQuery();
         this.results = [];
@@ -28,6 +29,11 @@ class Searcher{
         this.results.push(temp2);
         this.results.push(temp3);
 
+        const req_url = `https://api.globalgiving.org/api/public/projectservice/all/projects?api_key=${process.env.API_KEY}`;
+        const response = await fetch(req_url, {
+            method: 'GET'
+        });
+        console.log(response.json());
         this._saveResults();
 
         // TODO Implement Giving Global API with search
@@ -45,15 +51,16 @@ class Searcher{
         window.localStorage.setItem('results', JSON.stringify(this.results));
     }
 
-    renderQuery(){
+    _renderQuery(){
         let querySection = document.getElementById('query');
         querySection.innerText = "Showing results for: \"" + this.query + "\"";
     }
 
     renderSearch(){
-        this.renderQuery();
+        this._renderQuery();
         let resultSection = document.getElementById('results');
         resultSection.innerHTML = '';
+        let frag = new DocumentFragment();
         for (let item of this.results){
             const line = document.createElement('div');
             line.classList.add('charity-line');
@@ -62,7 +69,6 @@ class Searcher{
 
             // Check if charity already liked
             if (item['liked']) {
-                console.log("hit here!");
                 likeDiv.classList.add('liked');
             }
             
@@ -83,8 +89,9 @@ class Searcher{
             charityDiv.classList.add('charity');
             charityDiv.innerText = item['charity'];
             line.appendChild(charityDiv);
-            resultSection.appendChild(line);
+            frag.appendChild(line);
         }
+        resultSection.appendChild(frag);
     }
 } 
 

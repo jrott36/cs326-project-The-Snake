@@ -6,6 +6,6 @@ const searcher = new Searcher();
 searchButton.addEventListener("click", () => {
     const searchBar = document.getElementById('search-bar');
     const query = searchBar.value;
-    searcher.search = query;
+    await searcher.search(query);
     searcher.renderSearch();
 });
