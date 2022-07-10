@@ -25,6 +25,16 @@ app.post('/user/like', async (req, res) => {
     }
 });
 
+app.get('/user/search', async (req, res) => {
+    try {
+        const body = req.body;
+        const results = await database.searchFor(body.query);
+        res.status(200).json(results);
+    } catch (err) {
+        res.status(500).json({status: failed});
+    }
+})
+
 app.delete('/user/deleteLike', async (req, res) => {
     try {
         const body = req.body;
