@@ -45,10 +45,6 @@ class Database {
     }
 
     // TODO CREATE METHODS TO INTERACT WITH DATABASE ONCE STRUCTURE DECIDED
-    async addLike(UID, OID){
-        const queryText = 'INSERT INTO likes (UID, OID) VALUES ($1, $2)';
-        await this.client.query(queryText, [UID, OID]);
-    }
 
     async searchFor(str){
         const queryText = 'SELECT * FROM orgs WHERE Name LIKE $1 OR Mission LIKE $1 OR Country=$2 ORDER BY num_likes DESC';
@@ -56,9 +52,16 @@ class Database {
         return res.rows;
     }
 
-    async removeLike(UID, OID){
-        const queryText = `DELETE FROM likes WHERE UID=? AND OID=?`;
-        this.client.query(queryText, [UID, OID]);
+    async addLike(OID, num){
+        // const queryText = 'INSERT INTO likes (UID, OID) VALUES ($1, $2)';
+        const queryText = "UPDATE orgs SET num_likes = $1 WHERE OID = $2";
+        await this.client.query(queryText, [num, OID]);
+    }
+
+    async removeLike(OID, num){
+        // const queryText = `DELETE FROM likes WHERE UID=$1 AND OID=$2`;
+        const queryText = "UPDATE orgs SET num_likes = $1 WHERE OID = $2";
+        await this.client.query(queryText, [num, OID]);
     }
 }
 

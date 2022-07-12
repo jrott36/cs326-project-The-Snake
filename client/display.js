@@ -20,7 +20,6 @@ class Searcher{
         this._saveQuery();
         this.results = [];
 
-        // TODO Implement Giving Global API with search
         const response = await fetch(`/user/search`, {
             method: 'POST',
             headers: {
@@ -65,23 +64,37 @@ class Searcher{
             likeDiv.innerText = item['num_likes'];
             
             // Add event listener for the like button
-            likeDiv.addEventListener("click", () => {
+            likeDiv.addEventListener("click", async () => {
                 if (item['liked']){
                     likeDiv.classList.remove('liked');
                     item['liked'] = false;
                     item['num_likes']--;
                     likeDiv.innerText = item['num_likes'];
+                    await fetch(`/user/removeLike`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({OID: item['oid'], num: item['num_likes']}),
+                    });
                 }
                 else {
                     likeDiv.classList.add('liked');
                     item['liked'] = true;
                     item['num_likes']++;
                     likeDiv.innerText = item['num_likes'];
+                    await fetch(`/user/like`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({OID: item['oid'], num: item['num_likes']}),
+                    });
                 }
                 this._saveResults();
             });
             line.appendChild(likeDiv);
-            
+
             const charityDiv = document.createElement('div');
             charityDiv.classList.add('charity');
             

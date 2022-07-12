@@ -15,16 +15,6 @@ app.use(logger('dev'));
 app.use('/', express.static('client'));
 
 // TODO Implement the endpoints
-app.post('/user/like', async (req, res) => {
-    try {
-        const body = req.body;
-        await database.addLike(body.UID, body.OID);
-        res.status(200);
-    } catch (err) {
-        res.status(500).json({status: 'failed'});
-    }
-});
-
 app.post('/user/search', async (req, res) => {
     try {
         const body = req.body;
@@ -35,10 +25,20 @@ app.post('/user/search', async (req, res) => {
     }
 })
 
-app.delete('/user/deleteLike', async (req, res) => {
+app.post('/user/like', async (req, res) => {
     try {
         const body = req.body;
-        await database.removeLike(body.UID, body.OID);
+        await database.addLike(body.OID, body.num);
+        res.status(200);
+    } catch (err) {
+        res.status(500).json({status: 'failed'});
+    }
+});
+
+app.delete('/user/removeLike', async (req, res) => {
+    try {
+        const body = req.body;
+        await database.removeLike(body.OID, body.num);
         res.status(200)
     } catch (err) {
         res.status(500).json({status: 'failed'});
