@@ -14,7 +14,6 @@ app.use(express.urlencoded({exntended: false}));
 app.use(logger('dev'));
 app.use('/', express.static('client'));
 
-// TODO Implement the endpoints
 app.post('/user/search', async (req, res) => {
     try {
         const body = req.body;

@@ -99,13 +99,20 @@ class Searcher{
             charityDiv.classList.add('charity');
             
             // Create <a> element with name and clickable hyperlink into new tab (using noopener to avoid tabnapping which I found recommended online).
-            let aTag = document.createElement('a');
-            aTag.setAttribute('href', item['url']);
-            aTag.setAttribute('target', '_blank');
-            aTag.setAttribute('rel', 'noopener noreferrer');
-            aTag.innerText = item['name'];
+            const aElement = document.createElement('a');
+            aElement.setAttribute('href', item['url']);
+            aElement.setAttribute('target', '_blank');
+            aElement.setAttribute('rel', 'noopener noreferrer');
+            aElement.innerText = item['name'];
+            charityDiv.appendChild(aElement);
 
-            charityDiv.appendChild(aTag);
+            // Create text div for mission statement of charity
+            charityDiv.appendChild(document.createElement("br"));
+            const missionElement = document.createElement('div');
+            missionElement.innerText= item['mission'];
+            missionElement.classList.add('mission');
+            charityDiv.appendChild(missionElement);
+
             line.appendChild(charityDiv);
             frag.appendChild(line);
         }

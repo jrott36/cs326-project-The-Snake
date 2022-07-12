@@ -20,6 +20,7 @@
 
 .charity-line {
     display: flex;
+    word-wrap: break-word;
 }
 
 .like-button {
@@ -40,4 +41,9 @@
 .liked {
     background-color: blue;
     color: antiquewhite;
+}
+
+.mission {
+    width: 90vw;
+    word-wrap: break-word;
 }
