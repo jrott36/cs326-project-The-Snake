@@ -28,8 +28,10 @@ class Database {
                 Name text,
                 Url text,
                 Mission text,
-                Country varchar(3)
+                Country varchar(3),
+                num_likes integer
             );
+            alter table orgs alter column num_likes set default 0;
             create table if not exists users (
                 UID varchar(30) primary key,
                 Password varchar(30)
@@ -37,7 +39,7 @@ class Database {
             create table if not exists likes (
                 UID varchar(30) primary key,
                 OID varchar(10)
-            )
+            );
         `;
         await this.client.query(queryText);
     }
@@ -49,7 +51,7 @@ class Database {
     }
 
     async searchFor(str){
-        const queryText = 'SELECT * FROM orgs WHERE Name LIKE $1 OR Mission LIKE $1 OR Country=$2';
+        const queryText = 'SELECT * FROM orgs WHERE Name LIKE $1 OR Mission LIKE $1 OR Country=$2 ORDER BY num_likes DESC';
         const res = await this.client.query(queryText, [('%' + str + '%'), str]);
         return res.rows;
     }

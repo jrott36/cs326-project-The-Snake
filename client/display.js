@@ -20,17 +20,6 @@ class Searcher{
         this._saveQuery();
         this.results = [];
 
-        // Temporary charity objects for testing
-
-        let temp = {liked: false, charity: "This is an example charity."};
-        let temp2 = {liked: true, charity: "This is a second example. It should already be liked"};
-        let temp3 = {liked: false, charity: "This one is just to make the comment that the charity search API is still a TODO on implementing."};
-        this.results.push(temp);
-        this.results.push(temp2);
-        this.results.push(temp3);
-
-        this._saveResults();
-
         // TODO Implement Giving Global API with search
         const response = await fetch(`/user/search`, {
             method: 'POST',
@@ -39,6 +28,8 @@ class Searcher{
             },
             body: JSON.stringify({search: str}),
         });
+        this.results = await response.json();
+        this._saveResults();
     }
 
     _saveQuery(){
@@ -69,23 +60,30 @@ class Searcher{
             if (item['liked']) {
                 likeDiv.classList.add('liked');
             }
+
+            // Insert number of likes into likeDiv
+            likeDiv.innerText = item['num_likes'];
             
             // Add event listener for the like button
             likeDiv.addEventListener("click", () => {
                 if (item['liked']){
                     likeDiv.classList.remove('liked');
                     item['liked'] = false;
+                    item['num_likes']--;
+                    likeDiv.innerText = item['num_likes'];
                 }
                 else {
                     likeDiv.classList.add('liked');
                     item['liked'] = true;
+                    item['num_likes']++;
+                    likeDiv.innerText = item['num_likes'];
                 }
                 this._saveResults();
             });
             line.appendChild(likeDiv);
             const charityDiv = document.createElement('div');
             charityDiv.classList.add('charity');
-            charityDiv.innerText = item['charity'];
+            charityDiv.innerText = item['name'];
             line.appendChild(charityDiv);
             frag.appendChild(line);
         }
