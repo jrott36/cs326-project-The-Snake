@@ -49,8 +49,8 @@ class Database {
     }
 
     async searchFor(str){
-        const queryText = `SELECT * FROM orgs WHERE Name LIKE ':param' OR Mission LIKE '%:param%' OR Country=':param'`;
-        const res = await this.client.query(queryText, {param: str});
+        const queryText = 'SELECT * FROM orgs WHERE Name LIKE $1 OR Mission LIKE $1 OR Country=$2';
+        const res = await this.client.query(queryText, [('%' + str + '%'), str]);
         return res.rows;
     }
 

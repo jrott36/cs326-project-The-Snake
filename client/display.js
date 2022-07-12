@@ -39,7 +39,6 @@ class Searcher{
             },
             body: JSON.stringify({search: str}),
         });
-        console.log(response);
     }
 
     _saveQuery(){
