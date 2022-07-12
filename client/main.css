@@ -20,12 +20,14 @@
 
 .charity-line {
     display: flex;
-    word-wrap: break-word;
+    column-gap: 10px;
 }
 
 .like-button {
     height: 20px;
     width: 20px;
+    position: relative;
+    top: 23px;
     background-color: white;
     border: 1px solid;
     border-color: black;

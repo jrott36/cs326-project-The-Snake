@@ -104,10 +104,12 @@ class Searcher{
             aElement.setAttribute('target', '_blank');
             aElement.setAttribute('rel', 'noopener noreferrer');
             aElement.innerText = item['name'];
-            charityDiv.appendChild(aElement);
+            const header = document.createElement('h3');
+            header.appendChild(aElement);
+            charityDiv.appendChild(header);
 
             // Create text div for mission statement of charity
-            charityDiv.appendChild(document.createElement("br"));
+            //charityDiv.appendChild(document.createElement("br"));
             const missionElement = document.createElement('div');
             missionElement.innerText= item['mission'];
             missionElement.classList.add('mission');
