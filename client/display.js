@@ -81,9 +81,18 @@ class Searcher{
                 this._saveResults();
             });
             line.appendChild(likeDiv);
+            
             const charityDiv = document.createElement('div');
             charityDiv.classList.add('charity');
-            charityDiv.innerText = item['name'];
+            
+            // Create <a> element with name and clickable hyperlink into new tab (using noopener to avoid tabnapping which I found recommended online).
+            let aTag = document.createElement('a');
+            aTag.setAttribute('href', item['url']);
+            aTag.setAttribute('target', '_blank');
+            aTag.setAttribute('rel', 'noopener noreferrer');
+            aTag.innerText = item['name'];
+
+            charityDiv.appendChild(aTag);
             line.appendChild(charityDiv);
             frag.appendChild(line);
         }
