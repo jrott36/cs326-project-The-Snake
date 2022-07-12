@@ -1,5 +1,5 @@
-import 'dotenv/config';
 import pg from 'pg';
+import 'dotenv/config';
 
 const { Pool } = pg;
 
@@ -25,7 +25,7 @@ class Database {
         const queryText = `
             create table if not exists orgs (
                 OID varchar(10) primary key,
-                Name varchar(50),
+                Name text,
                 Url text,
                 Mission text,
                 Country varchar(3)
@@ -39,7 +39,7 @@ class Database {
                 OID varchar(10)
             )
         `;
-        const res = await this.client.query(queryText);
+        await this.client.query(queryText);
     }
 
     // TODO CREATE METHODS TO INTERACT WITH DATABASE ONCE STRUCTURE DECIDED

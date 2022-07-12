@@ -1,5 +1,4 @@
 // For now, display grid with input text to show modified UI:
-import 'dotenv/config';
 
 class Searcher{
     constructor(){
@@ -22,6 +21,7 @@ class Searcher{
         this.results = [];
 
         // Temporary charity objects for testing
+
         let temp = {liked: false, charity: "This is an example charity."};
         let temp2 = {liked: true, charity: "This is a second example. It should already be liked"};
         let temp3 = {liked: false, charity: "This one is just to make the comment that the charity search API is still a TODO on implementing."};
@@ -32,10 +32,14 @@ class Searcher{
         this._saveResults();
 
         // TODO Implement Giving Global API with search
-    }
-
-    get search(){
-        return this.query;
+        const response = await fetch(`/user/search`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({search: str}),
+        });
+        console.log(response);
     }
 
     _saveQuery(){

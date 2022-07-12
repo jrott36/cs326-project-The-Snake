@@ -25,10 +25,10 @@ app.post('/user/like', async (req, res) => {
     }
 });
 
-app.get('/user/search', async (req, res) => {
+app.post('/user/search', async (req, res) => {
     try {
         const body = req.body;
-        const results = await database.searchFor(body.query);
+        const results = await database.searchFor(body.search);
         res.status(200).json(results);
     } catch (err) {
         res.status(500).json({status: failed});
