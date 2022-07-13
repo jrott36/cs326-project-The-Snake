@@ -44,24 +44,43 @@ class Database {
         await this.client.query(queryText);
     }
 
-    // TODO CREATE METHODS TO INTERACT WITH DATABASE ONCE STRUCTURE DECIDED
-
     async searchFor(str){
-        const queryText = 'SELECT * FROM orgs WHERE Name LIKE $1 OR Mission LIKE $1 OR Country=$2 ORDER BY num_likes DESC';
+        const queryText = 'SELECT DISTINCT * FROM orgs WHERE UPPER(Name) LIKE UPPER($1) OR UPPER(Mission) LIKE UPPER($1) OR Country=UPPER($2) ORDER BY num_likes DESC';
         const res = await this.client.query(queryText, [('%' + str + '%'), str]);
         return res.rows;
     }
 
-    async addLike(OID, num){
+    async addLike(OID, UID, num){
         // const queryText = 'INSERT INTO likes (UID, OID) VALUES ($1, $2)';
         const queryText = "UPDATE orgs SET num_likes = $1 WHERE OID = $2";
         await this.client.query(queryText, [num, OID]);
     }
 
-    async removeLike(OID, num){
+    async removeLike(OID, UID, num){
         // const queryText = `DELETE FROM likes WHERE UID=$1 AND OID=$2`;
         const queryText = "UPDATE orgs SET num_likes = $1 WHERE OID = $2";
         await this.client.query(queryText, [num, OID]);
+    }
+
+    async findUser(username){
+        const queryText = "SELECT EXISTS(SELECT * FROM users WHERE UID=$1)";
+        const res = await this.client.query(queryText, [username]);
+        let temp = await res.rows[0]
+        return temp.exists;
+    }
+
+    async addUser(username, password){
+        const queryText = "INSERT INTO users (UID, Password) VALUES ($1, $2);";
+        await this.client.query(queryText, [username, password]);
+        return true;
+    }
+
+    async validatePassword(name, pwd){
+        if (!this.findUser(name)) { return false; }
+        const queryText = "SELECT EXISTS(SELECT * FROM users WHERE UID=$1 AND Password=$2)";
+        const res = await this.client.query(queryText, [name, pwd]);
+        let temp = await res.rows[0]
+        return temp.exists;
     }
 }
 

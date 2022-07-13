@@ -20,7 +20,7 @@ class Searcher{
         this._saveQuery();
         this.results = [];
 
-        const response = await fetch(`/user/search`, {
+        const response = await fetch(`/search`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ class Searcher{
                     item['liked'] = false;
                     item['num_likes']--;
                     likeDiv.innerText = item['num_likes'];
-                    await fetch(`/user/removeLike`, {
+                    await fetch(`removeLike`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ class Searcher{
                     item['liked'] = true;
                     item['num_likes']++;
                     likeDiv.innerText = item['num_likes'];
-                    await fetch(`/user/like`, {
+                    await fetch(`like`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
