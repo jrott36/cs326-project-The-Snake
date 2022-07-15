@@ -34,32 +34,34 @@ class Database {
             alter table orgs alter column num_likes set default 0;
             create table if not exists users (
                 UID varchar(30) primary key,
-                Password varchar(30)
+                Password varchar(30),
+                Likes varchar(10)[]
             );
-            create table if not exists likes (
-                UID varchar(30) primary key,
-                OID varchar(10)
-            );
+            alter table users alter column likes set default '{}'
         `;
         await this.client.query(queryText);
     }
 
     async searchFor(str){
-        const queryText = 'SELECT DISTINCT * FROM orgs WHERE UPPER(Name) LIKE UPPER($1) OR UPPER(Mission) LIKE UPPER($1) OR Country=UPPER($2) ORDER BY num_likes DESC';
+        const queryText = `
+            SELECT DISTINCT * FROM orgs WHERE UPPER(Name) LIKE UPPER($1) OR UPPER(Mission) LIKE UPPER($1) OR Country=UPPER($2) ORDER BY num_likes DESC
+        `;
         const res = await this.client.query(queryText, [('%' + str + '%'), str]);
         return res.rows;
     }
 
-    async addLike(OID, UID, num){
-        // const queryText = 'INSERT INTO likes (UID, OID) VALUES ($1, $2)';
-        const queryText = "UPDATE orgs SET num_likes = $1 WHERE OID = $2";
-        await this.client.query(queryText, [num, OID]);
+    async addLike(OID, UID){
+        const queryText = "UPDATE orgs SET num_likes=num_likes+1 WHERE OID = $1";
+        await this.client.query(queryText, [OID]);
+        const queryText2 = "UPDATE users SET Likes = array_append(Likes, $1) where UID = $2;";
+        await this.client.query(queryText2, [OID, UID]);
     }
 
-    async removeLike(OID, UID, num){
-        // const queryText = `DELETE FROM likes WHERE UID=$1 AND OID=$2`;
-        const queryText = "UPDATE orgs SET num_likes = $1 WHERE OID = $2";
-        await this.client.query(queryText, [num, OID]);
+    async removeLike(OID, UID){
+        const queryText = "UPDATE orgs SET num_likes = num_likes-1 WHERE OID = $1";
+        await this.client.query(queryText, [OID]);
+        const queryText2 = "UPDATE users SET likes = array_remove(likes, $1) WHERE uid = $2;";
+        await this.client.query(queryText2, [OID, UID]);
     }
 
     async findUser(username){

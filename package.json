@@ -4,7 +4,8 @@
     "description": "",
     "type": "module",
     "scripts": {
-        "start": "node server/index.js"
+        "start": "node server/index.js",
+        "debug": "node --inspect-brk server/index.js"
     },
     "author": "Jacob Rottenberg",
     "dependencies": {

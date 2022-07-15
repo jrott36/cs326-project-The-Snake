@@ -75,7 +75,7 @@ class Searcher{
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({OID: item['oid'], num: item['num_likes']}),
+                        body: JSON.stringify({OID: item['oid']}),
                     });
                 }
                 else {
@@ -88,7 +88,7 @@ class Searcher{
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({OID: item['oid'], num: item['num_likes']}),
+                        body: JSON.stringify({OID: item['oid']}),
                     });
                 }
                 this._saveResults();

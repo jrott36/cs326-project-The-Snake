@@ -1,7 +1,7 @@
 import { Database } from "./database.js";
 import 'dotenv/config';
 import logger from 'morgan';
-import express from 'express';
+import express, { Router } from 'express';
 import expressSession from 'express-session';
 import auth from './auth.js';
 import { fileURLToPath } from 'url';
@@ -25,24 +25,24 @@ const sessionConfig = {
 
 app.use(expressSession(sessionConfig));
 app.use(express.json());
-app.use(express.urlencoded({exntended: true}));
+app.use(express.urlencoded({extended: true}));
 app.use(logger('dev'));
-app.use('/', express.static('client'));
 
 auth.configure(app);
 
-function checkLoggedIn(req, res, next) {
+const checkLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
         next();
     } else {
         res.redirect('/login');
     }
-}
-  
+};
+
 app.get('/', checkLoggedIn, (req, res) => {
-    console.log('hit here');
-    res.status(200);
+    res.sendFile('client/index.html', {root: __dirname});
 });
+
+app.use(express.static('client'));
 
 app.get('/login', (req, res) => {
     res.sendFile('client/login.html', {root: __dirname});
@@ -94,7 +94,7 @@ app.post('/search', checkLoggedIn, async (req, res) => {
 app.post('/like', checkLoggedIn, async (req, res) => {
     try {
         const body = req.body;
-        await database.addLike(body.OID, req.user, body.num);
+        await database.addLike(body.OID, req.user);
         res.status(200);
     } catch (err) {
         res.status(500).json({'status': 'failed'});
@@ -104,7 +104,7 @@ app.post('/like', checkLoggedIn, async (req, res) => {
 app.delete('/removeLike', checkLoggedIn, async (req, res) => {
     try {
         const body = req.body;
-        await database.removeLike(body.OID, req.user, body.num);
+        await database.removeLike(body.OID, req.user);
         res.status(200)
     } catch (err) {
         res.status(500).json({'status': 'failed'});
