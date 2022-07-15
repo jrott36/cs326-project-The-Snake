@@ -19,15 +19,23 @@ class Searcher{
         this.query = str;
         this._saveQuery();
         this.results = [];
-
-        const response = await fetch(`/search`, {
+        const searchResponse = await fetch(`/search`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({search: str}),
         });
-        this.results = await response.json();
+        this.results = await searchResponse.json();
+        const likeResponse = await fetch(`/liked`, {
+            method: 'GET',
+        });
+        const likes = (await likeResponse.json())[0].likes;
+        for (let item of this.results){
+            if (likes.includes(item.oid)){
+                item['liked'] = true;
+            }
+        }
         this._saveResults();
     }
 
@@ -109,7 +117,6 @@ class Searcher{
             charityDiv.appendChild(header);
 
             // Create text div for mission statement of charity
-            //charityDiv.appendChild(document.createElement("br"));
             const missionElement = document.createElement('div');
             missionElement.innerText= item['mission'];
             missionElement.classList.add('mission');

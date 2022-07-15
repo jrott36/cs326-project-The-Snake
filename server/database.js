@@ -50,6 +50,12 @@ class Database {
         return res.rows;
     }
 
+    async getUserLikes(UID){
+        const queryText = "SELECT Likes FROM users WHERE uid = $1";
+        const res = await this.client.query(queryText, [UID]);
+        return res.rows;
+    }
+
     async addLike(OID, UID){
         const queryText = "UPDATE orgs SET num_likes=num_likes+1 WHERE OID = $1";
         await this.client.query(queryText, [OID]);

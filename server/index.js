@@ -111,6 +111,15 @@ app.delete('/removeLike', checkLoggedIn, async (req, res) => {
     }
 });
 
+app.get('/liked', checkLoggedIn, async (req, res) => {
+    try {
+        const results = await database.getUserLikes(req.user);
+        res.status(200).json(results);
+    } catch (err) {
+        res.status(500).json({'status': 'failed'});
+    }
+});
+
 // Redirect everything else
 app.all('*', async (request, response) => {
     response.status(404).send(`Request not found: ${request.path}`);
